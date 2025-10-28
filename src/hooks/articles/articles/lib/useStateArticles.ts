@@ -2,7 +2,9 @@
 
 import React from "react";
 
-import { useLoadingOverlay } from "@/base/Loading/useLoadingOverlay";
+import { useRouter } from "next/navigation";
+
+import { useLoading } from "@/context/LoadingContext";
 
 export function useStateArticles(articlesData: Article[] = []) {
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null);
@@ -18,8 +20,6 @@ export function useStateArticles(articlesData: Article[] = []) {
   const [layoutMode, setLayoutMode] = React.useState<"grid" | "column">("grid");
   const [visibleCount, setVisibleCount] = React.useState<number>(6);
   const sentinelRef = React.useRef<HTMLDivElement | null>(null);
-  const { withNavigationLoading } = useLoadingOverlay();
-
   const [selectedCategory, setSelectedCategory] = React.useState<string>("all");
   const categories = React.useMemo(() => {
     const unique = Array.from(
@@ -90,11 +90,19 @@ export function useStateArticles(articlesData: Article[] = []) {
     setHoveredIndex(null);
   };
 
+  // Navigation with overlay for article details
+  const router = useRouter();
+  const { showLoading, hideLoading } = useLoading();
   const handleViewDetails = React.useCallback(
-    async (slug: string) => {
-      await withNavigationLoading(`/articles/${slug}`, "articles");
+    (slug: string, title?: string) => {
+      if (!slug) return;
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("routeLoadingPreTriggered", "1");
+      }
+      showLoading(title || "Articles", "articles");
+      setTimeout(() => router.push(`/articles/${slug}`), 0);
     },
-    [withNavigationLoading]
+    [router, showLoading]
   );
 
   return {

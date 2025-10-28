@@ -1,5 +1,7 @@
 import { metadata, viewport } from "@/base/meta/Metadata";
 
+import React, { Suspense } from "react";
+
 export { metadata, viewport };
 
 metadata.manifest = "/manifest.json";
@@ -10,7 +12,7 @@ import { ThemeProvider } from "@/context/ThemaContext"
 
 import { LoadingProvider } from "@/context/LoadingContext"
 
-import LoadingOverlayWrapper from "@/base/Loading/LoadingOverlayWrapper"
+import LoadingOverlayWrapper, { RouteChangeLoadingOverlay } from "@/base/Loading/LoadingOverlayWrapper"
 
 import { geistSans, geistMono } from "@/base/fonts/Fonts";
 
@@ -56,6 +58,9 @@ export default function RootLayout({
               {children}
               <Footer />
               <LoadingOverlayWrapper />
+              <Suspense fallback={null}>
+                <RouteChangeLoadingOverlay />
+              </Suspense>
               <Overlay />
             </LoadingProvider>
             <Toaster position="top-center" richColors />

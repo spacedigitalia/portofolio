@@ -12,16 +12,30 @@ import { articlesAnimations } from '@/base/animations/animation'
 
 import { formatRelativeTime } from '@/lib/formatTime'
 
-export default function ArticleCard({ article, index, onClick }: ArticleCardProps) {
+import { useRouter } from 'next/navigation'
+
+import { useLoading } from '@/context/LoadingContext'
+
+export default function ArticleCard({ article, index }: ArticleCardProps) {
+    const router = useRouter()
+    const { showLoading, hideLoading } = useLoading()
+
+    const handleOpen = React.useCallback(() => {
+        if (typeof window !== 'undefined') {
+            sessionStorage.setItem('routeLoadingPreTriggered', '1')
+        }
+        showLoading(article.title || 'Articles', 'articles')
+        setTimeout(() => router.push(`/articles/${article.slug}`), 0)
+    }, [router, showLoading, article.slug, article.title])
     return (
         <motion.div
             className='group cursor-pointer'
-            onClick={() => onClick(article.slug)}
             initial={articlesAnimations.article.initial}
             whileInView={articlesAnimations.article.animate}
             viewport={{ once: true }}
             transition={articlesAnimations.article.transition(index)}
             whileHover={articlesAnimations.article.whileHover}
+            onClick={handleOpen}
         >
             <motion.div
                 className='relative aspect-[16/9] overflow-hidden rounded-lg'

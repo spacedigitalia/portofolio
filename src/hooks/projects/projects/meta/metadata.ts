@@ -1,87 +1,70 @@
 import { Metadata } from "next";
 
-const API_URL = `${process.env.NEXT_PUBLIC_API}/projects`;
+export async function generateMetadata(): Promise<Metadata> {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export async function getProducts(slug: string): Promise<ProjectsContentProps | null> {
-  try {
-    const response = await fetch(`${API_URL}/${slug}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
-      },
-    });
+  const pageTitle = "Projects | Rizki Ramadhan";
+  const pageDescription =
+    "Jelajahi koleksi proyek terbaik saya: website, aplikasi web, UI/UX, dan solusi digital modern yang dibangun dengan Next.js, React, dan teknologi terkini.";
+  const ogImage = `${BASE_URL}/projects.png`;
 
-    if (!response.ok) {
-      return null;
-    }
-
-    const project = await response.json();
-    return project;
-  } catch (error) {
-    console.error("Error fetching projects:", error);
-    return null;
-  }
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  try {
-    const resolvedParams = await params;
-    const project = await getProducts(resolvedParams.slug);
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
-
-    if (!project) {
-      return {
-        title: "Project Not Found",
-        description: "The requested project could not be found.",
-        openGraph: {
-          title: "Project Not Found",
-          description: "The requested project could not be found.",
-          images: [],
+  return {
+    title: pageTitle,
+    description: pageDescription,
+    keywords: [
+      "Portfolio Projects",
+      "Web Development Projects",
+      "Next.js Projects",
+      "React Projects",
+      "UI/UX Case Studies",
+      "Frontend Developer Portfolio",
+      "Full Stack Projects",
+      "Rizki Ramadhan Projects",
+      "Indonesia Developer Portfolio",
+    ],
+    authors: [{ name: "Rizki Ramadhan" }],
+    category: "Web Development & Digital Solutions",
+    openGraph: {
+      title: pageTitle,
+      description: pageDescription,
+      type: "website",
+      url: `${BASE_URL}/projects`,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: pageTitle,
         },
-      };
-    }
-
-    const imageUrl = project.imageUrl?.[0] || project.thumbnail;
-    const fullImageUrl = imageUrl.startsWith('http') ? imageUrl : `${BASE_URL}${imageUrl}`;
-
-    return {
-      title: `${project.title} | Projects`,
-      description: project.description,
-      openGraph: {
-        title: `${project.title} | Projects`,
-        description: project.description,
-        images: [
-          {
-            url: fullImageUrl,
-            width: 1200,
-            height: 630,
-            alt: project.title,
-          },
-        ],
-        type: 'article',
-        url: `${BASE_URL}/${project.slug}`,
+      ],
+      siteName: "Rizki Ramadhan",
+      locale: "id_ID",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: pageTitle,
+      description: pageDescription,
+      images: [ogImage],
+      creator: "@codingwithrizki",
+      site: "@codingwithrizki",
+    },
+    alternates: {
+      canonical: `${BASE_URL}/projects`,
+      languages: {
+        "id-ID": `${BASE_URL}/projects`,
+        "en-US": `${BASE_URL}/en/projects`,
       },
-      twitter: {
-        card: 'summary_large_image',
-        title: `${project.title} | Projects`,
-        description: project.description,
-        images: [fullImageUrl],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
-    };
-  } catch (error) {
-    console.error("Error generating metadata:", error);
-    return {
-      title: "Project Not Found",
-      description: "The requested project could not be found.",
-      openGraph: {
-        title: "Project Not Found",
-        description: "The requested project could not be found.",
-        images: [],
-      },
-    };
-  }
+    },
+  };
 }

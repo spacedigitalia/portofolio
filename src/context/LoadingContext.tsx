@@ -2,6 +2,8 @@
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react'
 
+export const LOADING_MIN_DURATION_MS = 5000
+
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined)
 
 export function LoadingProvider({ children }: { children: ReactNode }) {
@@ -11,37 +13,27 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
     const [isInitialLoading, setIsInitialLoading] = useState(true) // Keep this true for styling
 
     useEffect(() => {
-        // Always show loading for at least 2.5 seconds for better UX and progress completion
+        // Tahan minimal ~3.6s: 2 pesan (≈2.0s) + progress splash (≈1.6s)
         const minLoadingTime = setTimeout(() => {
             // Check if page is already loaded
             if (document.readyState === 'complete') {
-                // Add small delay to ensure progress bar completes
-                setTimeout(() => {
-                    setIsInitialLoading(false)
-                }, 500)
+                // Transisi langsung setelah minimum waktu tercapai
+                setIsInitialLoading(false)
                 return
             }
 
             // Listen for page load completion
             const handleLoad = () => {
-                // Add a delay for smooth transition and progress completion
-                setTimeout(() => {
-                    setIsInitialLoading(false)
-                }, 800)
+                // Transisi langsung setelah event load jika minimum waktu sudah lewat
+                setIsInitialLoading(false)
             }
 
             window.addEventListener('load', handleLoad)
 
-            // Fallback: hide loading after 3.5 seconds max
-            const fallbackTimer = setTimeout(() => {
-                setIsInitialLoading(false)
-            }, 3500)
-
             return () => {
                 window.removeEventListener('load', handleLoad)
-                clearTimeout(fallbackTimer)
             }
-        }, 2500) // Minimum 2.5 seconds loading time
+        }, LOADING_MIN_DURATION_MS)
 
         return () => {
             clearTimeout(minLoadingTime)
@@ -62,7 +54,7 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
 
     const contextValue = React.useMemo(() => ({
         isLoading: isLoading || isInitialLoading,
-        loadingMessage: isInitialLoading ? 'Loading My Portfolio...' : loadingMessage,
+        loadingMessage: isInitialLoading ? '' : loadingMessage,
         loadingType: isInitialLoading ? 'general' : loadingType,
         showLoading,
         hideLoading,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { motion } from 'framer-motion'
 
@@ -7,9 +7,7 @@ import Image from 'next/image'
 import { Badge } from "@/components/ui/badge"
 
 export default function TechSkill({ skillsData, isInView }: TechSkillProps) {
-    const [showAllSkills, setShowAllSkills] = useState(false)
-    const skillsToShow = showAllSkills ? skillsData : skillsData.slice(0, 20)
-    const hasMoreSkills = skillsData.length > 20
+    const skillsToShow = skillsData
 
     return (
         <motion.div
@@ -98,68 +96,9 @@ export default function TechSkill({ skillsData, isInView }: TechSkillProps) {
                     ))}
                 </div>
 
-                {/* Overlay gradient untuk efek fade - hanya saat collapsed */}
-                {!showAllSkills && hasMoreSkills && (
-                    <motion.div
-                        className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.2 }}
-                    />
-                )}
-
-                {/* View More Button - Absolute positioned saat collapsed */}
-                {!showAllSkills && hasMoreSkills && (
-                    <motion.button
-                        onClick={() => setShowAllSkills(!showAllSkills)}
-                        className={`absolute bottom-2 left-1/2 transform -translate-x-1/2 z-10
-                                flex items-center justify-center w-12 h-12 rounded-full
-                                bg-primary/10 hover:bg-primary/20 backdrop-blur-sm
-                                border border-primary/20 shadow-lg
-                                transition-all duration-300 text-primary
-                                hover:shadow-xl hover:scale-105 active:scale-95`}
-                        whileHover={{ y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                        initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.3 }}
-                        title="View More"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </motion.button>
-                )}
+                {/* Semua skills ditampilkan; tombol dan overlay dihapus */}
             </motion.div>
 
-            {/* Show Less Button - Normal positioned saat expanded */}
-            {showAllSkills && hasMoreSkills && (
-                <motion.div
-                    className="flex justify-center pt-4"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2 }}
-                >
-                    <motion.button
-                        onClick={() => setShowAllSkills(!showAllSkills)}
-                        className={`flex items-center justify-center w-12 h-12 rounded-full
-                                bg-primary/10 hover:bg-primary/20 backdrop-blur-sm
-                                border border-primary/20 shadow-lg
-                                transition-all duration-300 text-primary
-                                hover:shadow-xl hover:scale-105 active:scale-95`}
-                        whileHover={{ y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2 }}
-                        title="Show Less"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                        </svg>
-                    </motion.button>
-                </motion.div>
-            )}
         </motion.div>
     )
 }

@@ -37,7 +37,7 @@ export default function ArticlesLayout({ articlesData }: { articlesData: Article
         displayedArticles,
         handleMouseMove,
         handleMouseLeave,
-        handleViewDetails
+        handleViewDetails,
     } = useStateArticles(articlesData);
 
     return (
@@ -151,10 +151,8 @@ export default function ArticlesLayout({ articlesData }: { articlesData: Article
                                         key={idx}
                                         className='relative group flex flex-col p-0 overflow-hidden bg-transparent border-none outline-none shadow-none'
                                     >
-
                                         <CardHeader
                                             className='relative z-[1] aspect-[16/9] overflow-hidden cursor-pointer'
-                                            onClick={() => handleViewDetails(item.slug)}
                                             onMouseMove={(e) => handleMouseMove(e as unknown as React.MouseEvent<HTMLDivElement>, idx)}
                                             onMouseLeave={handleMouseLeave}
                                         >
@@ -183,7 +181,7 @@ export default function ArticlesLayout({ articlesData }: { articlesData: Article
                                                 }}
                                             />
 
-                                            <Link href={`/articles/${item.slug}`}>
+                                            <Link href={`/articles/${item.slug}`} onClick={(e) => { e.preventDefault(); handleViewDetails(item.slug, item.title); }}>
                                                 <motion.div
                                                     aria-label="View details"
                                                     className='absolute z-[2] rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold bg-[color:var(--color-primary)] text-[color:var(--color-primary-foreground)] shadow-lg hover:shadow-xl active:scale-95 transition-[box-shadow,transform]'

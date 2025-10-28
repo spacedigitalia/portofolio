@@ -18,7 +18,11 @@ import { LayoutGrid, List } from 'lucide-react'
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { useStateProjects } from '@/hooks/projects/projects/lib/useStateProjects'
+import { useProjectsState } from '@/hooks/projects/useProjectsState'
+
+import { useLoading } from '@/context/LoadingContext'
+
+import { useRouter } from 'next/navigation'
 
 export default function ProjectLayout({ projectsData }: { projectsData: ProjectsContentProps[] }) {
     const {
@@ -37,8 +41,18 @@ export default function ProjectLayout({ projectsData }: { projectsData: Projects
         displayedProjects,
         handleMouseMove,
         handleMouseLeave,
-        handleViewDetails
-    } = useStateProjects(projectsData);
+    } = useProjectsState(projectsData, 'list');
+
+    const { showLoading, hideLoading } = useLoading()
+    const router = useRouter()
+
+    const handleOpenDetails = React.useCallback((slug: string, title?: string) => {
+        if (typeof window !== 'undefined') {
+            sessionStorage.setItem('routeLoadingPreTriggered', '1')
+        }
+        showLoading(title || 'Projects', 'projects')
+        setTimeout(() => router.push(`/projects/${slug}`), 0)
+    }, [router, showLoading])
 
     return (
         <section className='py-6 sm:py-8 lg:py-10'>
@@ -154,7 +168,6 @@ export default function ProjectLayout({ projectsData }: { projectsData: Projects
 
                                         <CardHeader
                                             className='relative z-[1] aspect-[16/9] overflow-hidden cursor-pointer'
-                                            onClick={() => handleViewDetails(item.slug)}
                                             onMouseMove={(e) => handleMouseMove(e as unknown as React.MouseEvent<HTMLDivElement>, idx)}
                                             onMouseLeave={handleMouseLeave}
                                         >
@@ -183,7 +196,7 @@ export default function ProjectLayout({ projectsData }: { projectsData: Projects
                                                 }}
                                             />
 
-                                            <Link href={`/projects/${item.slug}`}>
+                                            <Link href={`/projects/${item.slug}`} onClick={(e) => { e.preventDefault(); handleOpenDetails(item.slug, item.title); }}>
                                                 <motion.div
                                                     aria-label="View details"
                                                     className='absolute z-[2] rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold bg-[color:var(--color-primary)] text-[color:var(--color-primary-foreground)] shadow-lg hover:shadow-xl active:scale-95 transition-[box-shadow,transform]'

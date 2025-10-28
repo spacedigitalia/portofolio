@@ -12,20 +12,30 @@ import { Button } from "@/components/ui/button";
 
 import { Badge } from "@/components/ui/badge";
 
-import { useLoadingOverlay } from '@/base/Loading/useLoadingOverlay'
+import { useRouter } from 'next/navigation'
+
+import { useLoading } from '@/context/LoadingContext'
 
 import ImagePreview from '@/hooks/projects/details/ImagePreview'
 
 import { useLenis } from '@/lib/useLenis'
 
 export default function ProjectsLayout({ productsData }: ProjectsLayoutProps) {
-    const { withNavigationLoading } = useLoadingOverlay()
+    const router = useRouter()
+
     const lenis = useLenis();
+
     const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
-    const handleProjectNavigation = useCallback(async (slug: string) => {
-        await withNavigationLoading(`/projects/${slug}`)
-    }, [withNavigationLoading])
+    const { showLoading } = useLoading()
+
+    const handleProjectNavigation = useCallback(async (slug: string, title?: string) => {
+        if (typeof window !== 'undefined') {
+            sessionStorage.setItem('routeLoadingPreTriggered', '1')
+        }
+        showLoading(title ? title : 'Loading project...', 'projects')
+        setTimeout(() => router.push(`/projects/${slug}`), 0)
+    }, [router, showLoading])
 
     const handleImageClick = (image: string, index: number) => {
         setSelectedImage(image)
@@ -192,7 +202,7 @@ export default function ProjectsLayout({ productsData }: ProjectsLayoutProps) {
                             >
                                 <div
                                     className="block h-full cursor-pointer"
-                                    onClick={() => handleProjectNavigation(project.slug)}
+                                    onClick={() => handleProjectNavigation(project.slug, project.title)}
                                 >
                                     <Card className="relative overflow-hidden border-border/50 transition-all duration-500 hover:border-primary/50 p-0 hover:bg-card/50 backdrop-blur-sm shadow-xl hover:shadow-2xl rounded-2xl sm:rounded-3xl bg-gradient-to-br from-card via-card/95 to-card/90">
                                         {/* Image Container */}

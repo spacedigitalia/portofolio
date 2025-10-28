@@ -78,19 +78,6 @@ interface ShinyTextProps {
   className?: string;
 }
 
-// LoadingOverlay
-interface ArticlesLoadingOverlayProps {
-  isLoading?: boolean;
-  message?: string;
-  className?: string;
-}
-
-interface ContactsLoadingOverlayProps {
-  isLoading?: boolean;
-  message?: string;
-  className?: string;
-}
-
 interface LoadingOverlayProps {
   isLoading?: boolean;
   message?: string;
@@ -100,14 +87,18 @@ interface LoadingOverlayProps {
 interface MangcodingStyleSplashProps {
   isLoading: boolean;
   message?: string;
+  messages?: string[];
+  messageDurationsMs?: number | number[];
+  loop?: boolean;
+  mode?: "messages-only" | "full";
+  textEffect?: "fade" | "typewriter" | "slide";
+  typewriterSpeedMs?: number;
+  typewriterHoldMs?: number;
+  onSequenceComplete?: () => void;
   className?: string;
 }
 
-interface ProjectsLoadingOverlayProps {
-  isLoading?: boolean;
-  message?: string;
-  className?: string;
-}
+// removed specific overlay props in favor of generic LoadingOverlayProps
 
 // LenisProvider
 interface LenisProviderProps {

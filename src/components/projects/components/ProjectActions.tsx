@@ -20,7 +20,7 @@ const ProjectActions = React.memo(function ProjectActions({
                 variant="secondary"
                 size="sm"
                 className="gap-2 bg-primary/10 hover:bg-primary/20 text-primary border-0 rounded-full transition-all duration-300 hover:scale-105"
-                onClick={() => onViewDetails(project.slug)}
+                onClick={() => onViewDetails(project.slug, project.title)}
             >
                 <ExternalLink className="w-4 h-4" />
                 Lihat Details

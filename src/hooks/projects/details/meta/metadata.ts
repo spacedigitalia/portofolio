@@ -2,7 +2,9 @@ import { Metadata } from "next";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API}/projects`;
 
-export async function getProducts(slug: string): Promise<ProjectsContentProps | null> {
+export async function getProducts(
+  slug: string
+): Promise<ProjectsContentProps | null> {
   try {
     const response = await fetch(`${API_URL}/${slug}`, {
       headers: {
@@ -31,7 +33,7 @@ export async function generateMetadata({
   try {
     const resolvedParams = await params;
     const project = await getProducts(resolvedParams.slug);
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
 
     if (!project) {
       return {
@@ -46,7 +48,9 @@ export async function generateMetadata({
     }
 
     const imageUrl = project.imageUrl?.[0] || project.thumbnail;
-    const fullImageUrl = imageUrl.startsWith('http') ? imageUrl : `${BASE_URL}${imageUrl}`;
+    const fullImageUrl = imageUrl.startsWith("http")
+      ? imageUrl
+      : `${BASE_URL}${imageUrl}`;
 
     return {
       title: `${project.title} | Projects`,
@@ -54,6 +58,8 @@ export async function generateMetadata({
       openGraph: {
         title: `${project.title} | Projects`,
         description: project.description,
+        type: "article",
+        url: `${BASE_URL}/projects/${project.slug}`,
         images: [
           {
             url: fullImageUrl,
@@ -62,14 +68,19 @@ export async function generateMetadata({
             alt: project.title,
           },
         ],
-        type: 'article',
-        url: `${BASE_URL}/${project.slug}`,
+        siteName: "Rizki Ramadhan",
+        locale: "id_ID",
       },
       twitter: {
-        card: 'summary_large_image',
+        card: "summary_large_image",
         title: `${project.title} | Projects`,
         description: project.description,
         images: [fullImageUrl],
+        creator: "@codingwithrizki",
+        site: "@codingwithrizki",
+      },
+      alternates: {
+        canonical: `${BASE_URL}/projects/${project.slug}`,
       },
     };
   } catch (error) {

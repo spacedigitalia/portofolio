@@ -19,7 +19,6 @@ export const metadata: Metadata = {
     },
 }
 
-
 export default function notfound() {
     return (
         <NotFound />

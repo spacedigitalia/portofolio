@@ -4,7 +4,7 @@ import React from 'react'
 
 import Preview from '@/components/projects/modal/Priview'
 
-import { useStateProjects } from '@/components/projects/lib/useStateProjects'
+import { useProjectsState } from '@/hooks/projects/useProjectsState'
 
 import ProjectsHeader from '@/components/projects/components/ProjectsHeader'
 
@@ -27,7 +27,7 @@ const ProjectsContent = React.memo(function ProjectsContent({ projectsData }: { 
         bottomProjects,
         handlePreview,
         handleViewDetails
-    } = useStateProjects(projectsData);
+    } = useProjectsState(projectsData, 'home');
 
     return (
         <section id="projects" className="py-16 bg-gradient-to-b from-background to-background/95">

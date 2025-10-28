@@ -1,87 +1,70 @@
 import { Metadata } from "next";
 
-const API_URL = `${process.env.NEXT_PUBLIC_API}/projects`;
+export async function generateMetadata(): Promise<Metadata> {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export async function getProducts(slug: string): Promise<ProjectsContentProps | null> {
-  try {
-    const response = await fetch(`${API_URL}/${slug}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
-      },
-    });
+  const pageTitle = "Articles | Rizki Ramadhan";
+  const pageDescription =
+    "Baca artikel, tutorial, dan studi kasus seputar web development, UI/UX, dan teknologi modern yang saya tulis.";
+  const ogImage = `${BASE_URL}/articles.png`;
 
-    if (!response.ok) {
-      return null;
-    }
-
-    const project = await response.json();
-    return project;
-  } catch (error) {
-    console.error("Error fetching projects:", error);
-    return null;
-  }
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  try {
-    const resolvedParams = await params;
-    const project = await getProducts(resolvedParams.slug);
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
-
-    if (!project) {
-      return {
-        title: "Project Not Found",
-        description: "The requested project could not be found.",
-        openGraph: {
-          title: "Project Not Found",
-          description: "The requested project could not be found.",
-          images: [],
+  return {
+    title: pageTitle,
+    description: pageDescription,
+    keywords: [
+      "Web Development Articles",
+      "Next.js Tutorial",
+      "React Guide",
+      "UI/UX Case Study",
+      "Frontend Tips",
+      "Backend Best Practices",
+      "SEO untuk Developer",
+      "Artikel Pemrograman Indonesia",
+      "Blog Teknologi",
+    ],
+    authors: [{ name: "Rizki Ramadhan" }],
+    category: "Web Development & Digital Solutions",
+    openGraph: {
+      title: pageTitle,
+      description: pageDescription,
+      type: "website",
+      url: `${BASE_URL}/articles`,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: pageTitle,
         },
-      };
-    }
-
-    const imageUrl = project.imageUrl?.[0] || project.thumbnail;
-    const fullImageUrl = imageUrl.startsWith('http') ? imageUrl : `${BASE_URL}${imageUrl}`;
-
-    return {
-      title: `${project.title} | Projects`,
-      description: project.description,
-      openGraph: {
-        title: `${project.title} | Projects`,
-        description: project.description,
-        images: [
-          {
-            url: fullImageUrl,
-            width: 1200,
-            height: 630,
-            alt: project.title,
-          },
-        ],
-        type: 'article',
-        url: `${BASE_URL}/${project.slug}`,
+      ],
+      siteName: "Rizki Ramadhan",
+      locale: "id_ID",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: pageTitle,
+      description: pageDescription,
+      images: [ogImage],
+      creator: "@codingwithrizki",
+      site: "@codingwithrizki",
+    },
+    alternates: {
+      canonical: `${BASE_URL}/articles`,
+      languages: {
+        "id-ID": `${BASE_URL}/articles`,
+        "en-US": `${BASE_URL}/en/articles`,
       },
-      twitter: {
-        card: 'summary_large_image',
-        title: `${project.title} | Projects`,
-        description: project.description,
-        images: [fullImageUrl],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
-    };
-  } catch (error) {
-    console.error("Error generating metadata:", error);
-    return {
-      title: "Project Not Found",
-      description: "The requested project could not be found.",
-      openGraph: {
-        title: "Project Not Found",
-        description: "The requested project could not be found.",
-        images: [],
-      },
-    };
-  }
+    },
+  };
 }

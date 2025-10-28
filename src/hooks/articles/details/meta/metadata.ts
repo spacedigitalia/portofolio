@@ -56,6 +56,8 @@ export async function generateMetadata({
       openGraph: {
         title: `${article.title} | Articles`,
         description: article.description,
+        type: "article",
+        url: `${BASE_URL}/articles/${article.slug}`,
         images: [
           {
             url: fullImageUrl,
@@ -64,14 +66,19 @@ export async function generateMetadata({
             alt: article.title,
           },
         ],
-        type: "article",
-        url: `${BASE_URL}/articles/${article.slug}`,
+        siteName: "Rizki Ramadhan",
+        locale: "id_ID",
       },
       twitter: {
         card: "summary_large_image",
         title: `${article.title} | Articles`,
         description: article.description,
         images: [fullImageUrl],
+        creator: "@codingwithrizki",
+        site: "@codingwithrizki",
+      },
+      alternates: {
+        canonical: `${BASE_URL}/articles/${article.slug}`,
       },
     };
   } catch (error) {

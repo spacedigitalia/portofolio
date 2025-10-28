@@ -1,86 +1,41 @@
-import { fetchProjectsContents } from "@/utils/FetchProjects";
-
-const BASE_URL =
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    (process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : "http://localhost:3000");
-
-function escapeXml(unsafe?: string): string {
-    const s = String(unsafe ?? "");
-    return s
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&apos;");
-}
-
-async function getProjectRoutes(): Promise<SitemapRoute[]> {
-    try {
-        const projects: ProjectsContentProps[] = await fetchProjectsContents();
-        return projects.map((project) => {
-            const updatedAtSource =
-                (project.updatedAt as unknown as string) ||
-                (project.createdAt as unknown as string) ||
-                new Date().toISOString();
-            const parsed = new Date(updatedAtSource);
-            const safeDate = isNaN(parsed.getTime()) ? new Date() : parsed;
-            return {
-                loc: `${BASE_URL}/projects/${project.slug}`,
-                lastmod: safeDate.toISOString(),
-                changefreq: "weekly",
-                priority: 0.7,
-            };
-        });
-    } catch (error) {
-        console.error("Error fetching project routes for sitemap:", error);
-        return [];
-    }
-}
+const API_URL = `${process.env.NEXT_PUBLIC_API}/sitemap`;
 
 export async function fetchSitemapData(): Promise<SitemapData> {
-    const now = new Date().toISOString();
+  try {
+    const response = await fetch(API_URL, {
+      next: {
+        revalidate: 3600, // Revalidate every hour
+      },
+    });
 
-    const staticRoutes: SitemapRoute[] = [
-        { loc: `${BASE_URL}/`, lastmod: now, changefreq: "daily", priority: 1 },
-        {
-            loc: `${BASE_URL}/articles`,
-            lastmod: now,
-            changefreq: "daily",
-            priority: 0.8,
-        },
-        {
-            loc: `${BASE_URL}/projects`,
-            lastmod: now,
-            changefreq: "daily",
-            priority: 0.8,
-        },
-        {
-            loc: `${BASE_URL}/achievements`,
-            lastmod: now,
-            changefreq: "weekly",
-            priority: 0.6,
-        },
-    ];
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-    const dynamicProjectRoutes = await getProjectRoutes();
-
-    return {
-        generatedAt: now,
-        baseUrl: BASE_URL,
-        routes: [...staticRoutes, ...dynamicProjectRoutes],
-    };
+    const data: SitemapData = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching sitemap data from API:", error);
+    throw error;
+  }
 }
 
 export function generateSitemapXml(data: SitemapData): string {
-    const urlsXml = data.routes
-        .map((r) => {
-            return `\n  <url>\n    <loc>${escapeXml(r.loc)}</loc>\n    <lastmod>${escapeXml(r.lastmod)}</lastmod>\n    <changefreq>${escapeXml(r.changefreq)}</changefreq>\n    <priority>${r.priority.toFixed(1)}</priority>\n  </url>`;
-        })
-        .join("");
+  const routes = data.routes;
 
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urlsXml}\n</urlset>`;
+  const urlset = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${routes
+  .map(
+    (route: SitemapRoute) => `  <url>
+    <loc>${route.loc}</loc>
+    <lastmod>${route.lastmod}</lastmod>
+    <changefreq>${route.changefreq}</changefreq>
+    <priority>${route.priority}</priority>
+  </url>`
+  )
+  .join("\n")}
+</urlset>`;
+
+  return urlset;
 }
-
-

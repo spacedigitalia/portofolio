@@ -57,7 +57,7 @@ interface ProjectsLayoutProps {
 
 interface ProjectActionsProps {
   project: ProjectsContentProps;
-  onViewDetails: (slug: string) => void;
+  onViewDetails: (slug: string, title?: string) => void;
   onPreview: (project: ProjectsContentProps) => void;
   showLiveDemo?: boolean;
 }
@@ -66,7 +66,7 @@ interface ProjectCardProps {
   project: ProjectsContentProps;
   index: number;
   isActive: boolean;
-  onViewDetails: (slug: string) => void;
+  onViewDetails: (slug: string, title?: string) => void;
   onPreview: (project: ProjectsContentProps) => void;
   onToggleActive?: (index: number) => void;
   showLiveDemo?: boolean;
@@ -80,7 +80,7 @@ interface ProjectsGridProps {
   middleProjects: ProjectsContentProps[];
   bottomProjects: ProjectsContentProps[];
   activeIndex: number;
-  onViewDetails: (slug: string) => void;
+  onViewDetails: (slug: string, title?: string) => void;
   onPreview: (project: ProjectsContentProps) => void;
 }
 
@@ -94,6 +94,6 @@ interface ProjectsMobileProps {
   displayedProjects: ProjectsContentProps[];
   activeIndex: number;
   setActiveIndex: (index: number) => void;
-  onViewDetails: (slug: string) => void;
+  onViewDetails: (slug: string, title?: string) => void;
   onPreview: (project: ProjectsContentProps) => void;
 }

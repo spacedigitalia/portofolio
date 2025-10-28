@@ -24,7 +24,7 @@ import { fetchSkillsContents } from "@/utils/FetchSkils";
 
 import { fetchAchievementsContents } from "@/utils/FetchAchievements";
 
-import { fetchArticlesContents } from "@/utils/FetchArticles"
+import { fetchArticlesHome } from "@/utils/FetchArticles"
 
 export default async function HomePage() {
   const homeData = await fetchHomeContents();
@@ -33,7 +33,7 @@ export default async function HomePage() {
   const youtubeData = await fetchYoutubeContents();
   const projectsData = await fetchProjectsContents();
   const skillsData = await fetchSkillsContents();
-  const articlesData = await fetchArticlesContents();
+  const articlesData = await fetchArticlesHome();
 
   return (
     <Fragment>

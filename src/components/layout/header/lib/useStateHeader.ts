@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Dispatch, SetStateAction } from "react";
 
 import { useTheme } from "next-themes";
 
-import { useLoadingOverlay } from "@/base/Loading/useLoadingOverlay";
+import { useRouter } from "next/navigation";
 
 import { useScrollTo, useLenis } from "@/lib/useLenis";
 
@@ -12,14 +12,41 @@ import { useLoading } from "@/context/LoadingContext";
 
 import { useThemeSwitchOverlay } from "@/context/SwitchThemaOverlay";
 
-export const useStateHeader = () => {
+import { navLink } from "@/components/layout/header/data/Header";
+
+type UseStateHeaderResult = {
+  // Theme related
+  theme: string | undefined;
+  setTheme: (newTheme: string) => void;
+  mounted: boolean;
+
+  // Loading state
+  isInitialLoading: boolean;
+
+  // Menu state
+  isMenuOpen: boolean;
+  setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
+
+  // Logo hover state
+  hoveredIndex: number | null;
+  setHoveredIndex: Dispatch<SetStateAction<number | null>>;
+
+  // Theme overlay state
+  isThemeOverlayVisible: boolean;
+  hideThemeSwitchOverlay: () => void;
+
+  // Functions
+  handleSmoothScroll: (path: string) => void;
+};
+
+export const useStateHeader = (): UseStateHeaderResult => {
   const { theme, setTheme } = useTheme();
-  const { isInitialLoading } = useLoading();
-  const { withNavigationLoading } = useLoadingOverlay();
+  const router = useRouter();
   const { isOverlayVisible, showThemeSwitchOverlay, hideThemeSwitchOverlay } =
     useThemeSwitchOverlay();
   const lenis = useLenis();
   const scrollTo = useScrollTo();
+  const { isInitialLoading } = useLoading();
 
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,11 +78,30 @@ export const useStateHeader = () => {
   const handleSmoothScroll = (path: string) => {
     setIsMenuOpen(false);
 
+    const getLabelForPath = (p: string) => {
+      if (!p) return "Loading...";
+      // direct match (for "/", "/projects", etc.)
+      const direct = navLink.find((l) => l.path === p);
+      if (direct) return direct.label;
+      if (p === "/") return "Home";
+      if (p.startsWith("/projects")) return "Projects";
+      if (p.startsWith("/articles")) return "Articles";
+      if (p.startsWith("/contacts")) return "Contacts";
+      if (p.startsWith("#")) {
+        const hash = navLink.find(
+          (l) => l.path === p || l.path === p.replace(/^\/+/, "#")
+        );
+        if (hash) return hash.label;
+      }
+      const seg = p.split("/").filter(Boolean)[0];
+      return seg ? seg[0].toUpperCase() + seg.slice(1) : "Loading...";
+    };
+
     if (path === "/") {
       if (window.location.pathname === "/") {
         scrollTo("html", { duration: 1.5 });
       } else {
-        withNavigationLoading("/", "general");
+        setTimeout(() => router.push("/"), 400);
       }
     } else if (path.startsWith("#")) {
       if (window.location.pathname === "/") {
@@ -63,20 +109,10 @@ export const useStateHeader = () => {
           offset: -80,
         });
       } else {
-        withNavigationLoading(`/${path}`, "general");
+        setTimeout(() => router.push(`/${path}`), 400);
       }
     } else {
-      let loadingType: "projects" | "articles" | "contacts" | "general" =
-        "general";
-      if (path.startsWith("/projects")) {
-        loadingType = "projects";
-      } else if (path.startsWith("/articles")) {
-        loadingType = "articles";
-      } else if (path.startsWith("/contacts")) {
-        loadingType = "contacts";
-      }
-
-      withNavigationLoading(path, loadingType);
+      setTimeout(() => router.push(path), 400);
     }
   };
 
@@ -86,7 +122,7 @@ export const useStateHeader = () => {
     setTheme: handleThemeChange,
     mounted,
 
-    // Loading related
+    // Loading state
     isInitialLoading,
 
     // Menu state
