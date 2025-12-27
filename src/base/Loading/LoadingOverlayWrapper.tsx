@@ -22,7 +22,7 @@ function MangcodingStyleSplash({
 
     return (
         <div
-            className={`fixed inset-0 z-50 flex items-center justify-center bg-[var(--background)] ${className}`}
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-background ${className}`}
         >
             <div className="flex flex-col items-center space-y-8 max-w-md">
                 {/* Logo/Brand Section */}
@@ -138,7 +138,7 @@ function MinimalTitleOverlay({
 }) {
     if (!isLoading) return null
     return (
-        <div className={`fixed inset-0 z-50 flex items-center justify-center bg-[var(--background)] ${className}`}>
+        <div className={`fixed inset-0 z-50 flex items-center justify-center bg-background ${className}`}>
             <motion.div
                 key={message}
                 initial={{ opacity: 0, y: 6 }}
@@ -230,7 +230,7 @@ function MessageSequence({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: transitionMs / 1000, ease: "easeInOut" }}
-            className={`fixed inset-0 z-50 flex items-center justify-center bg-[var(--background)] ${className}`}
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-background ${className}`}
         >
             <motion.div
                 key={index}
@@ -324,15 +324,15 @@ export default function LoadingOverlayWrapper() {
                     </motion.div>
                 )}
                 {showInitialSplit && (
-                    <div className="fixed inset-0 z-[60] pointer-events-none">
+                    <div className="fixed inset-0 z-60 pointer-events-none">
                         <motion.div
-                            className="absolute top-0 left-0 h-full w-1/2 bg-[var(--foreground)]"
+                            className="absolute top-0 left-0 h-full w-1/2 bg-foreground"
                             initial={{ x: 0 }}
                             animate={{ x: "-100%" }}
                             transition={{ duration: INITIAL_SPLIT_DURATION_MS / 1000, ease: [0.4, 0, 0.2, 1] as any }}
                         />
                         <motion.div
-                            className="absolute top-0 right-0 h-full w-1/2 bg-[var(--foreground)]"
+                            className="absolute top-0 right-0 h-full w-1/2 bg-foreground"
                             initial={{ x: 0 }}
                             animate={{ x: "100%" }}
                             transition={{ duration: INITIAL_SPLIT_DURATION_MS / 1000, ease: [0.4, 0, 0.2, 1] as any }}

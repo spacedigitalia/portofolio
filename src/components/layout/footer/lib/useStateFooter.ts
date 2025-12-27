@@ -121,7 +121,7 @@ export const useFooterState = () => {
       ),
     },
     {
-      href: "mailto:rr8027896@gmail.com",
+      href: "mailto:hallo@rizkiramadhan.web.id",
       label: "Email",
       icon: React.createElement(
         "svg",

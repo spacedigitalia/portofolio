@@ -28,7 +28,6 @@ export default function ArticlesLayout({ articlesData }: { articlesData: Article
         buttonRef,
         layoutMode,
         setLayoutMode,
-        visibleCount,
         sentinelRef,
         selectedCategory,
         setSelectedCategory,
@@ -124,7 +123,7 @@ export default function ArticlesLayout({ articlesData }: { articlesData: Article
                             onClick={() => setLayoutMode('grid')}
                             className='h-8 w-8 sm:h-9 sm:w-9 p-0 flex items-center justify-center'
                         >
-                            <LayoutGrid className='h-4 w-4 sm:h-[18px] sm:w-[18px]' aria-hidden="true" />
+                            <LayoutGrid className='h-4 w-4 sm:h-4.5 sm:w-4.5' aria-hidden="true" />
                             <span className='sr-only'>Grid view</span>
                         </Button>
 
@@ -136,7 +135,7 @@ export default function ArticlesLayout({ articlesData }: { articlesData: Article
                             onClick={() => setLayoutMode('column')}
                             className='h-8 w-8 sm:h-9 sm:w-9 p-0 flex items-center justify-center'
                         >
-                            <List className='h-4 w-4 sm:h-[18px] sm:w-[18px]' aria-hidden="true" />
+                            <List className='h-4 w-4 sm:h-4.5 sm:w-4.5' aria-hidden="true" />
                             <span className='sr-only'>List view</span>
                         </Button>
                     </div>
@@ -152,7 +151,7 @@ export default function ArticlesLayout({ articlesData }: { articlesData: Article
                                         className='relative group flex flex-col p-0 overflow-hidden bg-transparent border-none outline-none shadow-none'
                                     >
                                         <CardHeader
-                                            className='relative z-[1] aspect-[16/9] overflow-hidden cursor-pointer'
+                                            className='relative z-1 aspect-video overflow-hidden cursor-pointer'
                                             onMouseMove={(e) => handleMouseMove(e as unknown as React.MouseEvent<HTMLDivElement>, idx)}
                                             onMouseLeave={handleMouseLeave}
                                         >
@@ -184,7 +183,7 @@ export default function ArticlesLayout({ articlesData }: { articlesData: Article
                                             <Link href={`/articles/${item.slug}`} onClick={(e) => { e.preventDefault(); handleViewDetails(item.slug, item.title); }}>
                                                 <motion.div
                                                     aria-label="View details"
-                                                    className='absolute z-[2] rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold bg-[color:var(--color-primary)] text-[color:var(--color-primary-foreground)] shadow-lg hover:shadow-xl active:scale-95 transition-[box-shadow,transform]'
+                                                    className='absolute z-2 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold bg-(--color-primary) text-(--color-primary-foreground) shadow-lg hover:shadow-xl active:scale-95 transition-[box-shadow,transform]'
                                                     initial={false}
                                                     animate={{
                                                         left: mousePosition.x - (buttonSize.width / 2),
@@ -205,7 +204,7 @@ export default function ArticlesLayout({ articlesData }: { articlesData: Article
                                             </Link>
                                         </CardHeader>
 
-                                        <CardContent className='relative z-[1] p-0 pb-2 flex flex-col gap-1.5 sm:gap-2'>
+                                        <CardContent className='relative z-1 p-0 pb-2 flex flex-col gap-1.5 sm:gap-2'>
                                             <CardTitle className='text-sm sm:text-base lg:text-lg leading-tight'>{item.title}</CardTitle>
                                             <CardDescription className='text-xs sm:text-sm text-muted-foreground line-clamp-2'>{item.description}</CardDescription>
                                         </CardContent>

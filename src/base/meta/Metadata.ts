@@ -156,9 +156,6 @@ export const metadata = {
     "theme-color": "#0f172a",
     "msvalidate.01": `${process.env.NEXT_PUBLIC_BING_VERIFICATION}`,
     "google-site-verification": `${process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE_ID}`,
-    "yandex-verification": `${process.env.NEXT_PUBLIC_YANDEX_VERIFICATION}`,
-    "facebook-domain-verification": `${process.env.NEXT_PUBLIC_FACEBOOK_VERIFICATION}`,
-    "pinterest-site-verification": `${process.env.NEXT_PUBLIC_PINTEREST_VERIFICATION}`,
   },
   openGraph: {
     type: "website",
@@ -192,7 +189,7 @@ export const metadata = {
       },
     ],
     countryName: "Indonesia",
-    emails: ["rr8027896@gmail.com"],
+    emails: ["hallo@rizkiramadhan.web.id"],
     phoneNumbers: ["+62-813-9863-2939"],
     streetAddress: "Leuwiliang, Kabupaten Bogor, Jawa Barat",
     postalCode: "16640",
@@ -302,15 +299,7 @@ export const metadata = {
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE_ID,
     googleTagManager: process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
-    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
     bing: process.env.NEXT_PUBLIC_BING_VERIFICATION,
-    facebook: process.env.NEXT_PUBLIC_FACEBOOK_VERIFICATION,
-    pinterest: process.env.NEXT_PUBLIC_PINTEREST_VERIFICATION,
-    // New verification codes
-    alexa: process.env.NEXT_PUBLIC_ALEXA_VERIFICATION,
-    yahoo: process.env.NEXT_PUBLIC_YAHOO_VERIFICATION,
-    wot: process.env.NEXT_PUBLIC_WOT_VERIFICATION,
-    norton: process.env.NEXT_PUBLIC_NORTON_VERIFICATION,
   },
   robots: {
     index: true,
@@ -363,7 +352,7 @@ export const metadata = {
         "@type": "ContactPoint",
         telephone: "+62-813-9863-2939",
         contactType: "customer service",
-        email: "rr8027896@email.com",
+        email: "hallo@rizkiramadhan.web.id",
       },
       sameAs: [
         "https://www.facebook.com/rizki.ramadhan.419859",
@@ -392,7 +381,7 @@ export const metadata = {
       description: "Full Stack Developer & Creative Digital Solutions",
       url: BASE_URL,
       telephone: "+62-813-9863-2939",
-      email: "rr8027896@email.com",
+      email: "hallo@rizkiramadhan.web.id",
       address: {
         "@type": "PostalAddress",
         streetAddress: "Leuwiliang, Kabupaten Bogor, Jawa Barat",
@@ -419,15 +408,9 @@ export const metadata = {
     "X-DNS-Prefetch-Control": "on",
     "X-XSS-Protection": "1; mode=block",
   },
-  // New analytics and tracking
   analytics: {
     googleAnalytics: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
     googleTagManager: process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
-    facebookPixel: process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID,
-    hotjar: process.env.NEXT_PUBLIC_HOTJAR_ID,
-    mixpanel: process.env.NEXT_PUBLIC_MIXPANEL_TOKEN,
-    amplitude: process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY,
-    segment: process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY,
   },
 };
 

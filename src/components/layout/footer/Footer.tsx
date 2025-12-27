@@ -1,7 +1,5 @@
 "use client"
 
-import React from 'react'
-
 import { motion } from 'framer-motion'
 
 import { footerAnimations } from '@/base/animations/animation'
@@ -11,18 +9,13 @@ import { useFooterState } from '@/components/layout/footer/lib/useStateFooter'
 export default function Footer() {
     const {
         handleSmoothScroll,
-        containerVariants,
-        itemVariants,
-        floatingVariants,
-        socialVariants,
-        navVariants,
         navigationLinks,
         socialLinks
     } = useFooterState()
 
     return (
         <motion.footer
-            className="w-full bg-gradient-to-t from-background/90 via-background/80 to-background/60 border-t border-border/30 pt-16 pb-8 relative overflow-hidden rounded-t-2xl"
+            className="w-full bg-linear-to-t from-background/90 via-background/80 to-background/60 border-t border-border/30 pt-16 pb-8 relative overflow-hidden rounded-t-2xl"
             initial={footerAnimations.container.hidden}
             whileInView={footerAnimations.container.visible}
             viewport={{ once: true, amount: 0.3 }}

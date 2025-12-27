@@ -70,7 +70,7 @@ export const organizationJsonLd = {
         "longitude": "106.6322"
     },
     "telephone": "+62-813-9863-2939",
-    "email": "rr8027896@gmail.com",
+    "email": "hallo@rizkiramadhan.web.id",
     "jobTitle": "Full Stack Developer",
     "worksFor": {
         "@type": "Organization",
@@ -489,7 +489,7 @@ export const createContactSchema = () => ({
         "name": "Rizki Ramadhan",
         "url": "https://rizkiramadhan.web.id",
         "telephone": "+62-813-9863-2939",
-        "email": "rr8027896@gmail.com",
+        "email": "hallo@rizkiramadhan.web.id",
         "address": {
             "@type": "PostalAddress",
             "addressLocality": "Leuwiliang",
