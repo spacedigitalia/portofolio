@@ -67,16 +67,6 @@ export default function AchievementsContent({ achievementsData }: { achievements
     return (
         <section className="w-full py-10 px-4 md:px-8 relative overflow-hidden bg-linear-to-b from-background to-background/95">
             <div className="container relative">
-                <motion.h2
-                    ref={headingRef}
-                    className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-primary via-primary/80 to-primary animate-gradient text-center mb-20 uppercase"
-                    initial={achievementsAnimations.title.initial}
-                    animate={achievementsAnimations.title.animate(isHeadingInView)}
-                    transition={achievementsAnimations.title.transition}
-                >
-                    Achievements
-                </motion.h2>
-
                 <div ref={containerRef} className="relative w-full overflow-hidden">
                     {/* Left fade overlay */}
                     <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-16 md:w-24 lg:w-32 bg-linear-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />

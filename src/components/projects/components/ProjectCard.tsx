@@ -20,6 +20,7 @@ const ProjectCard = React.memo(function ProjectCard({
     onPreview,
     onToggleActive,
     showLiveDemo = false,
+    overflowVisible = false,
     className = "",
     aspectRatio = "aspect-[16/9]",
     priority = false
@@ -39,9 +40,9 @@ const ProjectCard = React.memo(function ProjectCard({
             className={`group w-full ${className}`}
             onClick={handleClick}
         >
-            <Card className={`relative overflow-hidden border-border/50 transition-all duration-500 hover:border-primary/50 p-0 ${isActive ? 'bg-card/50' : 'hover:bg-card/50'
-                } backdrop-blur-sm`}>
-                <div className={`relative ${aspectRatio} w-full overflow-hidden`}>
+            <Card className={`relative border-border/50 transition-all duration-500 hover:border-primary/50 p-0 ${isActive ? 'bg-card/50' : 'hover:bg-card/50'
+                } backdrop-blur-sm ${overflowVisible ? 'overflow-visible' : 'overflow-hidden'}`}>
+                <div className={`relative ${aspectRatio} w-full ${overflowVisible ? 'overflow-visible' : 'overflow-hidden'}`}>
                     <Image
                         src={project.thumbnail}
                         alt={project.title}

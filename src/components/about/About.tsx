@@ -15,7 +15,7 @@ export default function AboutContent({ aboutData, skillsData }: { aboutData: Abo
     const isInView = useInView(containerRef, { once: true, margin: "-100px" })
 
     return (
-        <section id="about" className="py-16 md:py-20 overflow-hidden bg-gradient-to-b from-background to-surface/20">
+        <section className="py-16 md:py-20 overflow-hidden bg-linear-to-b from-background to-surface/20">
             <div className="container px-4 md:px-6">
                 <motion.div
                     ref={containerRef}

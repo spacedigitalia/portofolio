@@ -4,7 +4,7 @@ import { useEffect, useState, Dispatch, SetStateAction } from "react";
 
 import { useTheme } from "next-themes";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import { useScrollTo, useLenis } from "@/lib/useLenis";
 
@@ -37,11 +37,15 @@ type UseStateHeaderResult = {
 
   // Functions
   handleSmoothScroll: (path: string) => void;
+
+  // Active link
+  activeLinkPath: string | null;
 };
 
 export const useStateHeader = (): UseStateHeaderResult => {
   const { theme, setTheme } = useTheme();
   const router = useRouter();
+  const pathname = usePathname();
   const { isOverlayVisible, showThemeSwitchOverlay, hideThemeSwitchOverlay } =
     useThemeSwitchOverlay();
   const lenis = useLenis();
@@ -51,6 +55,29 @@ export const useStateHeader = (): UseStateHeaderResult => {
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  // Determine active link based on current pathname
+  const getActiveLinkPath = (): string | null => {
+    if (!pathname) return null;
+
+    // Exact match first
+    const exactMatch = navLink.find((link) => link.path === pathname);
+    if (exactMatch) return exactMatch.path;
+
+    // Check if pathname starts with any link path (for nested routes)
+    const startsWithMatch = navLink.find((link) => {
+      if (link.path === "/") return false; // Don't match "/" for nested routes
+      return pathname.startsWith(link.path);
+    });
+    if (startsWithMatch) return startsWithMatch.path;
+
+    // Default to home if on root
+    if (pathname === "/") return "/";
+
+    return null;
+  };
+
+  const activeLinkPath = getActiveLinkPath();
 
   useEffect(() => {
     setMounted(true);
@@ -139,5 +166,8 @@ export const useStateHeader = (): UseStateHeaderResult => {
 
     // Functions
     handleSmoothScroll,
+
+    // Active link
+    activeLinkPath,
   };
 };

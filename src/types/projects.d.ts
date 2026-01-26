@@ -70,6 +70,7 @@ interface ProjectCardProps {
   onPreview: (project: ProjectsContentProps) => void;
   onToggleActive?: (index: number) => void;
   showLiveDemo?: boolean;
+  overflowVisible?: boolean;
   className?: string;
   aspectRatio?: string;
   priority?: boolean;

@@ -15,12 +15,6 @@ export const useFooterState = () => {
       } else {
         router.push("/");
       }
-    } else if (path.startsWith("#")) {
-      if (typeof window !== "undefined" && window.location.pathname === "/") {
-        scrollTo(path, { offset: -80, duration: 1.5 });
-      } else {
-        router.push(`/${path}`);
-      }
     } else {
       router.push(path);
     }
@@ -85,8 +79,8 @@ export const useFooterState = () => {
 
   // Navigation links data
   const navigationLinks = [
-    { href: "#home", label: "Home" },
-    { href: "#about", label: "About" },
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
     { href: "/projects", label: "Projects" },
     { href: "/articles", label: "Articles" },
     { href: "/contacts", label: "Contacts" },

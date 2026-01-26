@@ -9,7 +9,7 @@ export default function ArticlesLayout({ productsData }: ArticlesLayoutProps) {
         <section className='py-4 sm:py-6 md:py-8 lg:py-10'>
             <div className="container px-4 sm:px-6 md:px-8 space-y-8 sm:space-y-10 md:space-y-12">
                 {/* Hero Image Section */}
-                <div className='relative aspect-[16/9] overflow-hidden rounded-xl sm:rounded-2xl group shadow-xl sm:shadow-2xl'>
+                <div className='relative aspect-video overflow-hidden rounded-xl sm:rounded-2xl group shadow-xl sm:shadow-2xl'>
                     <Image
                         src={productsData.thumbnail}
                         alt={productsData.title}
@@ -17,8 +17,8 @@ export default function ArticlesLayout({ productsData }: ArticlesLayoutProps) {
                         className='object-cover transition-all duration-700 group-hover:scale-110'
                         priority
                     />
-                    <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500' />
-                    <div className='absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500' />
+                    <div className='absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500' />
+                    <div className='absolute inset-0 bg-linear-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500' />
                 </div>
 
                 {/* Article Header */}
@@ -87,14 +87,14 @@ export default function ArticlesLayout({ productsData }: ArticlesLayoutProps) {
                             {productsData.relatedArticles.map((article: RelatedArticle, index: number) => (
                                 <Link key={index} href={`/articles/${article.slug}`} className='group cursor-pointer'>
                                     <Card className='relative overflow-hidden bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 group-hover:-translate-y-1 p-0'>
-                                        <CardContent className='relative aspect-[16/9] overflow-hidden p-0'>
+                                        <CardContent className='relative aspect-video overflow-hidden p-0'>
                                             <Image
                                                 src={article.thumbnail}
                                                 alt={article.title}
                                                 fill
                                                 className='object-cover transition-all duration-500 group-hover:scale-110'
                                             />
-                                            <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
+                                            <div className='absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
                                             <div className='absolute top-2 sm:top-3 left-2 sm:left-3'>
                                                 <span className='px-2 py-1 bg-primary/90 text-primary-foreground text-xs font-medium rounded-md'>
                                                     {article.category}

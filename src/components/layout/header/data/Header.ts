@@ -7,7 +7,7 @@ export const navLink = [
   {
     number: "02",
     label: "About Me",
-    path: "#about",
+    path: "/about",
   },
   {
     number: "03",

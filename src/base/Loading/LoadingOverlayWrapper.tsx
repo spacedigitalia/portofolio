@@ -138,36 +138,39 @@ function MinimalTitleOverlay({
 }) {
     if (!isLoading) return null
     return (
-        <div className={`fixed inset-0 z-50 flex items-center justify-center bg-background ${className}`}>
-            <motion.div
-                key={message}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.2, ease: 'easeOut' }}
-                className="text-2xl md:text-3xl font-semibold tracking-wide text-foreground/90 uppercase"
-            >
-                <motion.span
-                    initial="hidden"
-                    animate="show"
-                    variants={{
-                        hidden: {},
-                        show: { transition: { staggerChildren: 0.028 } },
-                    }}
-                    className="inline-block whitespace-pre"
+        <div className={`fixed inset-0 z-200 flex items-center justify-center bg-background ${className}`}>
+            <div className="w-full max-w-[90vw] sm:max-w-[85vw] md:max-w-[80vw] px-4 sm:px-6 md:px-8">
+                <motion.div
+                    key={message}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                    className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold tracking-wide text-foreground/90 uppercase text-center overflow-hidden"
                 >
-                    {Array.from(message).map((ch, idx) => (
-                        <motion.span
-                            key={idx}
-                            variants={{ hidden: { y: 8, opacity: 0 }, show: { y: 0, opacity: 1 } }}
-                            transition={{ duration: 0.22, ease: 'easeOut' }}
-                            className="inline-block will-change-transform"
-                        >
-                            {ch === ' ' ? '\u00A0' : ch}
-                        </motion.span>
-                    ))}
-                </motion.span>
-            </motion.div>
+                    <motion.span
+                        initial="hidden"
+                        animate="show"
+                        variants={{
+                            hidden: {},
+                            show: { transition: { staggerChildren: 0.028 } },
+                        }}
+                        className="inline-block"
+                        style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+                    >
+                        {Array.from(message).map((ch, idx) => (
+                            <motion.span
+                                key={idx}
+                                variants={{ hidden: { y: 8, opacity: 0 }, show: { y: 0, opacity: 1 } }}
+                                transition={{ duration: 0.22, ease: 'easeOut' }}
+                                className="inline-block will-change-transform"
+                            >
+                                {ch === ' ' ? '\u00A0' : ch}
+                            </motion.span>
+                        ))}
+                    </motion.span>
+                </motion.div>
+            </div>
         </div>
     )
 }
@@ -296,6 +299,38 @@ export default function LoadingOverlayWrapper() {
         }
         prevIsLoadingRef.current = isLoading
     }, [isLoading, initialDone])
+
+    // Prevent body scroll when overlay is active
+    useEffect(() => {
+        const isOverlayActive = !initialDone || isLoading || showInitialSplit
+
+        if (isOverlayActive) {
+            // Save current scroll position
+            const scrollY = window.scrollY
+            document.body.style.position = 'fixed'
+            document.body.style.top = `-${scrollY}px`
+            document.body.style.width = '100%'
+            document.documentElement.style.overflow = 'hidden'
+        } else {
+            // Restore scroll position
+            const scrollY = document.body.style.top
+            document.body.style.position = ''
+            document.body.style.top = ''
+            document.body.style.width = ''
+            document.documentElement.style.overflow = ''
+            if (scrollY) {
+                window.scrollTo(0, parseInt(scrollY || '0') * -1)
+            }
+        }
+
+        return () => {
+            // Cleanup on unmount
+            document.body.style.position = ''
+            document.body.style.top = ''
+            document.body.style.width = ''
+            document.documentElement.style.overflow = ''
+        }
+    }, [initialDone, isLoading, showInitialSplit])
 
     return (
         <>

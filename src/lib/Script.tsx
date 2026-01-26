@@ -532,6 +532,73 @@ export const ContactsSchema = () => (
     />
 );
 
+// Breadcrumb for about page
+export const aboutBreadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://rizkiramadhan.web.id" },
+        { "@type": "ListItem", "position": 2, "name": "About", "item": "https://rizkiramadhan.web.id/about" },
+    ]
+};
+
+// About Schema
+export const createAboutSchema = () => ({
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About - Rizki Ramadhan",
+    "description": "Learn more about Rizki Ramadhan, a Full Stack Developer and Creative Digital Solutions professional from Indonesia",
+    "url": "https://rizkiramadhan.web.id/about",
+    "mainEntity": {
+        "@type": "Person",
+        "name": "Rizki Ramadhan",
+        "url": "https://rizkiramadhan.web.id",
+        "jobTitle": "Full Stack Developer",
+        "description": "Full Stack Developer dan Creative Digital Solutions profesional dari Indonesia. Spesialis dalam pengembangan website modern, aplikasi web, UI/UX Design, dan solusi digital yang inovatif untuk bisnis.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Leuwiliang",
+            "addressRegion": "Jawa Barat",
+            "addressCountry": "ID",
+            "postalCode": "16640"
+        },
+        "telephone": "+62-813-9863-2939",
+        "email": "hallo@rizkiramadhan.web.id",
+        "sameAs": [
+            "https://www.facebook.com/rizki.ramadhan.419859",
+            "https://github.com/Rizkiramadhan20",
+            "https://www.instagram.com/rzkir.20",
+            "https://www.tiktok.com/@rzkir.20",
+            "https://www.linkedin.com/in/rizki-ramadhan12",
+            "https://www.youtube.com/@codingwithrizki"
+        ]
+    }
+});
+
+// About Breadcrumb Schema Component
+export const AboutBreadcrumbSchema = () => (
+    <Script
+        id="about-breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+            __html: JSON.stringify(aboutBreadcrumbJsonLd),
+        }}
+        strategy="afterInteractive"
+    />
+);
+
+// About Schema Component
+export const AboutSchema = () => (
+    <Script
+        id="about-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+            __html: JSON.stringify(createAboutSchema()),
+        }}
+        strategy="afterInteractive"
+    />
+);
+
 export const AllSchemas = () => (
     <>
         <OrganizationSchema />

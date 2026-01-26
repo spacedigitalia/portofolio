@@ -117,6 +117,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -139,6 +140,7 @@ html {
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
@@ -166,6 +168,7 @@ html {
   from {
     transform: translateX(0%);
   }
+
   to {
     transform: translateX(-50%);
   }
@@ -309,15 +312,15 @@ html {
 }
 
 /* Remove excessive spacing between consecutive paragraphs */
-.prose p + p {
+.prose p+p {
   @apply mt-0;
 }
 
 /* Special handling for paragraphs after headings */
-.prose h1 + p,
-.prose h2 + p,
-.prose h3 + p,
-.prose h4 + p {
+.prose h1+p,
+.prose h2+p,
+.prose h3+p,
+.prose h4+p {
   @apply mt-2;
 }
 
@@ -359,6 +362,7 @@ html {
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
@@ -377,16 +381,14 @@ html {
   right: -3px;
   bottom: -3px;
   border-radius: calc(var(--radius) + 3px);
-  background: linear-gradient(
-    90deg,
-    transparent,
-    transparent,
-    var(--primary),
-    var(--primary),
-    var(--primary),
-    transparent,
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      transparent,
+      var(--primary),
+      var(--primary),
+      var(--primary),
+      transparent,
+      transparent);
   background-size: 400% 100%;
   animation: border-marquee 10s linear infinite;
   z-index: -1;
@@ -440,29 +442,29 @@ textarea,
   .gradient-purple-blue {
     background: linear-gradient(135deg, oklch(0.65 0.25 280), oklch(0.70 0.20 250));
   }
-  
+
   .gradient-text-purple-blue {
     background: linear-gradient(135deg, oklch(0.70 0.25 280), oklch(0.75 0.22 250));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   .gradient-teal-cyan {
     background: linear-gradient(135deg, oklch(0.75 0.22 200), oklch(0.70 0.20 180));
   }
-  
+
   .gradient-text-teal-cyan {
     background: linear-gradient(135deg, oklch(0.75 0.22 200), oklch(0.70 0.20 180));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   .glow-purple {
     box-shadow: 0 0 20px oklch(0.65 0.25 280 / 0.3), 0 0 40px oklch(0.65 0.25 280 / 0.2);
   }
-  
+
   .glow-teal {
     box-shadow: 0 0 20px oklch(0.75 0.22 200 / 0.3), 0 0 40px oklch(0.75 0.22 200 / 0.2);
   }
@@ -471,6 +473,7 @@ textarea,
     0% {
       transform: translateX(0);
     }
+
     100% {
       transform: translateX(-50%);
     }
@@ -480,6 +483,7 @@ textarea,
     0% {
       transform: translateX(-50%);
     }
+
     100% {
       transform: translateX(0);
     }

@@ -1,7 +1,5 @@
 "use client"
 
-import React from 'react'
-
 import LightRays from '@/components/ui/LightRays';
 
 export default function HeroArticles() {
@@ -27,7 +25,7 @@ export default function HeroArticles() {
                 className='z-20'
             />
             {/* Background overlay beneath LightRays */}
-            <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/80 to-background/0" />
+            <div className="absolute inset-0 z-0 bg-linear-to-b from-background/80 to-background/0" />
             <div className='absolute inset-0 flex items-center justify-center z-10'
             >
                 <div className="text-center px-4 sm:px-6 max-w-4xl mx-auto">

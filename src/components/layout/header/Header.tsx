@@ -1,7 +1,5 @@
 "use client"
 
-import React from 'react'
-
 import { Button } from "@/components/ui/button"
 
 import { Switch } from "@/components/ui/switch"
@@ -28,7 +26,8 @@ export default function Header() {
         setHoveredIndex,
         isThemeOverlayVisible,
         hideThemeSwitchOverlay,
-        handleSmoothScroll
+        handleSmoothScroll,
+        activeLinkPath
     } = useStateHeader();
 
     const text = "rizki ramadhan.";
@@ -153,7 +152,7 @@ export default function Header() {
             <AnimatePresence>
                 {isMenuOpen && (
                     <motion.div
-                        className="fixed inset-0 z-[200] flex items-center justify-center bg-black bg-opacity-80"
+                        className="fixed inset-0 z-200 flex items-center justify-center bg-black bg-opacity-80"
                         onClick={() => setIsMenuOpen(false)}
                         initial={headerAnimations.modal.overlay.initial}
                         animate={headerAnimations.modal.overlay.animate}
@@ -180,37 +179,55 @@ export default function Header() {
                             </motion.button>
                             {/* Main menu */}
                             <nav className="flex flex-col gap-6 sm:gap-8 w-full mt-8 sm:mt-10">
-                                {navLink.map((item, index) => (
-                                    <motion.div
-                                        key={item.number}
-                                        className="flex items-center justify-between group cursor-pointer"
-                                        onClick={() => handleSmoothScroll(item.path)}
-                                        initial={headerAnimations.menuItem.initial}
-                                        animate={headerAnimations.menuItem.animate}
-                                        transition={headerAnimations.menuItem.transition(index)}
-                                    >
+                                {navLink.map((item, index) => {
+                                    const isActive = activeLinkPath === item.path;
+                                    return (
                                         <motion.div
-                                            className="text-2xl sm:text-5xl font-bold text-foreground transition-all duration-200 group-hover:tracking-wide"
-                                            whileHover={headerAnimations.menuButtonItem.whileHover}
+                                            key={item.number}
+                                            className="flex items-center justify-between group cursor-pointer relative"
+                                            onClick={() => handleSmoothScroll(item.path)}
+                                            initial={headerAnimations.menuItem.initial}
+                                            animate={headerAnimations.menuItem.animate}
+                                            transition={headerAnimations.menuItem.transition(index)}
                                         >
-                                            {item.label} <span className="text-muted-foreground text-base sm:text-lg align-top">({item.number})</span>
+                                            <motion.div className="flex items-center gap-3 sm:gap-4">
+                                                {isActive && (
+                                                    <motion.div
+                                                        className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary"
+                                                        initial={{ scale: 0, opacity: 0 }}
+                                                        animate={{ scale: 1, opacity: 1 }}
+                                                        transition={{ duration: 0.3 }}
+                                                    />
+                                                )}
+                                                <motion.div
+                                                    className={`text-2xl sm:text-5xl font-bold transition-all duration-200 group-hover:tracking-wide ${isActive ? "text-muted-foreground" : "text-foreground"
+                                                        }`}
+                                                    whileHover={headerAnimations.menuButtonItem.whileHover}
+                                                >
+                                                    {item.label} <span className="text-muted-foreground text-base sm:text-lg align-top">({item.number})</span>
+                                                </motion.div>
+                                            </motion.div>
+                                            <motion.button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleSmoothScroll(item.path);
+                                                }}
+                                                className={`border rounded-full p-1.5 sm:p-3 transition-colors duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-ring ${isActive
+                                                        ? "border-primary bg-primary/10"
+                                                        : "border-border group-hover:bg-accent"
+                                                    }`}
+                                                whileHover={headerAnimations.menuArrow.whileHover}
+                                                whileTap={headerAnimations.menuArrow.whileTap}
+                                            >
+                                                <span className="sr-only">Go to {item.label}</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 sm:h-6 sm:w-6 ${isActive ? "text-primary" : "text-foreground"
+                                                    }`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </motion.button>
                                         </motion.div>
-                                        <motion.button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleSmoothScroll(item.path);
-                                            }}
-                                            className="border border-border rounded-full p-1.5 sm:p-3 group-hover:bg-accent transition-colors duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-ring"
-                                            whileHover={headerAnimations.menuArrow.whileHover}
-                                            whileTap={headerAnimations.menuArrow.whileTap}
-                                        >
-                                            <span className="sr-only">Go to {item.label}</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </motion.button>
-                                    </motion.div>
-                                ))}
+                                    );
+                                })}
                             </nav>
                             {/* Footer menu modal */}
                             <motion.div
