@@ -26,16 +26,34 @@ const ProjectsContent = React.memo(function ProjectsContent({ projectsData }: { 
         middleProjects,
         bottomProjects,
         handlePreview,
-        handleViewDetails
+        handleViewDetails,
+        showMoreCategories,
+        setShowMoreCategories,
+        hasMoreCategories,
+        visibleCategories,
+        hiddenCategories,
+        isSelectedCategoryHidden,
+        handleCategorySelect,
+        headerDropdownRef,
+        headerButtonRef
     } = useProjectsState(projectsData, 'home');
 
     return (
-        <section id="projects" className="py-16 bg-gradient-to-b from-background to-background/95">
+        <section id="projects" className="py-16 bg-linear-to-b from-background to-background/95">
             <div className="container px-4 md:px-6">
                 <ProjectsHeader
                     categories={categories}
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
+                    showMoreCategories={showMoreCategories}
+                    setShowMoreCategories={setShowMoreCategories}
+                    hasMoreCategories={hasMoreCategories}
+                    visibleCategories={visibleCategories}
+                    hiddenCategories={hiddenCategories}
+                    isSelectedCategoryHidden={isSelectedCategoryHidden}
+                    handleCategorySelect={handleCategorySelect}
+                    headerDropdownRef={headerDropdownRef}
+                    headerButtonRef={headerButtonRef}
                 />
 
                 <ProjectsGrid

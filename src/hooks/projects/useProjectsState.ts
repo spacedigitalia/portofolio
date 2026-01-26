@@ -21,6 +21,61 @@ export function useProjectsState(
     return ["all", ...unique];
   }, [projectsData]);
 
+  const [showMoreCategories, setShowMoreCategories] = React.useState<boolean>(false);
+
+  // ProjectsHeader computed values
+  const MAX_VISIBLE_CATEGORIES = 5;
+  const hasMoreCategories = React.useMemo(
+    () => categories.length > MAX_VISIBLE_CATEGORIES,
+    [categories]
+  );
+  const visibleCategories = React.useMemo(
+    () => (hasMoreCategories ? categories.slice(0, MAX_VISIBLE_CATEGORIES) : categories),
+    [categories, hasMoreCategories]
+  );
+  const hiddenCategories = React.useMemo(
+    () => (hasMoreCategories ? categories.slice(MAX_VISIBLE_CATEGORIES) : []),
+    [categories, hasMoreCategories]
+  );
+  const isSelectedCategoryHidden = React.useMemo(
+    () => hiddenCategories.includes(selectedCategory),
+    [hiddenCategories, selectedCategory]
+  );
+
+  const handleCategorySelect = useCallback(
+    (category: string) => {
+      setSelectedCategory(category);
+      setShowMoreCategories(false);
+    },
+    [setSelectedCategory]
+  );
+
+  // ProjectsHeader refs
+  const headerDropdownRef = React.useRef<HTMLDivElement | null>(null);
+  const headerButtonRef = React.useRef<HTMLButtonElement | null>(null);
+
+  // ProjectsHeader useEffect for click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        headerDropdownRef.current &&
+        headerButtonRef.current &&
+        !headerDropdownRef.current.contains(event.target as Node) &&
+        !headerButtonRef.current.contains(event.target as Node)
+      ) {
+        setShowMoreCategories(false);
+      }
+    };
+
+    if (showMoreCategories) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showMoreCategories, setShowMoreCategories]);
+
   const filteredProjects = React.useMemo(() => {
     if (selectedCategory === "all") return projectsData;
     return (projectsData || []).filter(
@@ -154,6 +209,17 @@ export function useProjectsState(
     categories,
     filteredProjects,
     displayedProjects,
+    showMoreCategories,
+    setShowMoreCategories,
+
+    // ProjectsHeader computed values
+    hasMoreCategories,
+    visibleCategories,
+    hiddenCategories,
+    isSelectedCategoryHidden,
+    handleCategorySelect,
+    headerDropdownRef,
+    headerButtonRef,
 
     // List mode specific
     layoutMode,

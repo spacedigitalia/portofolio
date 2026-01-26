@@ -17,7 +17,7 @@ const ProjectsMobile = React.memo(function ProjectsMobile({
 
     return (
         <div className='md:hidden'>
-            <div className='flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory'>
+            <div className='flex flex-wrap gap-4 pb-4'>
                 {displayedProjects.map((project, idx) => {
                     const isActive = activeIndex === idx
                     return (
@@ -30,7 +30,7 @@ const ProjectsMobile = React.memo(function ProjectsMobile({
                             onPreview={onPreview}
                             onToggleActive={handleToggleActive}
                             showLiveDemo={true}
-                            className="w-[85vw] flex-shrink-0 snap-center"
+                            className="w-[calc(50%-10px)]"
                         />
                     )
                 })}

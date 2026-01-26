@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { motion } from 'framer-motion'
 
 import { MoveUpRight } from 'lucide-react'
@@ -13,12 +11,15 @@ export default function AchievementsCard({
     onCardClick
 }: AchievementsCardProps) {
     return (
-        <div
+        <motion.div
             key={`${achievement._id}-${index}`}
-            className="group mx-4 flex-shrink-0 w-[380px] h-[220px] relative overflow-hidden rounded-2xl bg-background/40 hover:bg-background/60 backdrop-blur-sm border border-primary/10 hover:border-primary/20 transition-all duration-500 shadow-lg hover:shadow-xl"
+            className="group shrink-0 w-[380px] h-[220px] relative overflow-hidden rounded-2xl bg-background/40 hover:bg-background/60 backdrop-blur-sm border border-primary/10 hover:border-primary/20 transition-all duration-500 shadow-lg hover:shadow-xl snap-start"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isCardsInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
         >
             {/* Background Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {/* Text Content */}
             <div className="absolute inset-0 p-8 flex flex-col justify-between z-20">
@@ -47,6 +48,6 @@ export default function AchievementsCard({
                     <MoveUpRight className="w-5 h-5" />
                 </motion.button>
             </div>
-        </div>
+        </motion.div>
     )
 }

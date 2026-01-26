@@ -88,6 +88,15 @@ interface ProjectsHeaderProps {
   categories: string[];
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
+  showMoreCategories: boolean;
+  setShowMoreCategories: (show: boolean) => void;
+  hasMoreCategories: boolean;
+  visibleCategories: string[];
+  hiddenCategories: string[];
+  isSelectedCategoryHidden: boolean;
+  handleCategorySelect: (category: string) => void;
+  headerDropdownRef: React.RefObject<HTMLDivElement | null>;
+  headerButtonRef: React.RefObject<HTMLButtonElement | null>;
 }
 
 interface ProjectsMobileProps {

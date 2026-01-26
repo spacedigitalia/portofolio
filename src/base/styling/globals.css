@@ -435,3 +435,66 @@ textarea,
   background-color: var(--primary);
   color: var(--primary-foreground);
 }
+
+@layer utilities {
+  .gradient-purple-blue {
+    background: linear-gradient(135deg, oklch(0.65 0.25 280), oklch(0.70 0.20 250));
+  }
+  
+  .gradient-text-purple-blue {
+    background: linear-gradient(135deg, oklch(0.70 0.25 280), oklch(0.75 0.22 250));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .gradient-teal-cyan {
+    background: linear-gradient(135deg, oklch(0.75 0.22 200), oklch(0.70 0.20 180));
+  }
+  
+  .gradient-text-teal-cyan {
+    background: linear-gradient(135deg, oklch(0.75 0.22 200), oklch(0.70 0.20 180));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .glow-purple {
+    box-shadow: 0 0 20px oklch(0.65 0.25 280 / 0.3), 0 0 40px oklch(0.65 0.25 280 / 0.2);
+  }
+  
+  .glow-teal {
+    box-shadow: 0 0 20px oklch(0.75 0.22 200 / 0.3), 0 0 40px oklch(0.75 0.22 200 / 0.2);
+  }
+
+  @keyframes marquee-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes marquee-right {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-marquee-left {
+    animation: marquee-left 40s linear infinite;
+  }
+
+  .animate-marquee-right {
+    animation: marquee-right 40s linear infinite;
+  }
+
+  .animate-marquee-left:hover,
+  .animate-marquee-right:hover {
+    animation-play-state: paused;
+  }
+}

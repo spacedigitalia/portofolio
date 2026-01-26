@@ -50,9 +50,10 @@ const ProjectCard = React.memo(function ProjectCard({
                         sizes="(max-width: 768px) 85vw, 1400px"
                         priority={priority}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-linear-to-t from-background/95 via-background/50 to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-500" />
 
-                    <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                    {/* Desktop overlay content */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full md:group-hover:translate-y-0 transition-transform duration-500 hidden md:block">
                         <div className="flex items-center gap-3 mb-4">
                             <span className="text-sm font-mono text-primary bg-primary/10 px-2 py-1 rounded">
                                 {`0${index + 1}`}
@@ -73,6 +74,29 @@ const ProjectCard = React.memo(function ProjectCard({
                             showLiveDemo={showLiveDemo}
                         />
                     </div>
+                </div>
+
+                {/* Mobile content outside image */}
+                <div className="px-4 pb-4 md:hidden">
+                    <div className="flex items-center gap-3 mb-4">
+                        <span className="text-sm font-mono text-primary bg-primary/10 px-2 py-1 rounded">
+                            {`0${index + 1}`}
+                        </span>
+                        <CardTitle className="text-xl font-semibold tracking-tight line-clamp-1">
+                            {project.title}
+                        </CardTitle>
+                    </div>
+
+                    <CardDescription className="text-sm line-clamp-2 mb-4">
+                        {project.description}
+                    </CardDescription>
+
+                    <ProjectActions
+                        project={project}
+                        onViewDetails={onViewDetails}
+                        onPreview={onPreview}
+                        showLiveDemo={showLiveDemo}
+                    />
                 </div>
             </Card>
         </motion.div>

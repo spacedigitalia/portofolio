@@ -40,7 +40,7 @@ export const SocialMedia = [
     path: "https://www.tiktok.com/@rzkir.20",
   },
   {
-    label: "LINKEND",
+    label: "LINKEDIN",
     path: "https://www.linkedin.com/in/rizki-ramadhan12",
   },
 ];
