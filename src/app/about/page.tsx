@@ -10,6 +10,15 @@ import { fetchSkillsContents } from "@/utils/FetchSkils";
 
 import { fetchAchievementsContents } from '@/utils/FetchAchievements';
 
+import { generateMetadata as getAboutMetadata } from '@/hooks/about/meta/metadata'
+
+import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+    const metadata = await getAboutMetadata();
+    return metadata;
+}
+
 export default async function page() {
     const aboutData = await fetchAboutContents();
     const skillsData = await fetchSkillsContents();
