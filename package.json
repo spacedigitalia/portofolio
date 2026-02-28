@@ -42,6 +42,7 @@
     "postprocessing": "^6.37.8",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react-github-calendar": "^5.0.5",
     "react-hook-form": "^7.56.4",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.3.0",
