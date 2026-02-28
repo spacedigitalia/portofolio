@@ -167,21 +167,21 @@ export const metadata = {
     locale: "id_ID",
     images: [
       {
-        url: "/favicon.ico",
+        url: "/desktop.png",
         width: 1200,
         height: 630,
         alt: "Rizki Ramadhan - Full Stack Developer & Creative Digital Solutions",
         type: "image/jpeg",
       },
       {
-        url: "/favicon.ico",
+        url: "/desktop.png",
         width: 600,
         height: 600,
         alt: "Rizki Ramadhan Logo",
         type: "image/jpeg",
       },
       {
-        url: "/favicon.ico",
+        url: "/desktop.png",
         width: 800,
         height: 600,
         alt: "Rizki Ramadhan Mobile Preview",
@@ -309,7 +309,7 @@ export const metadata = {
       index: true,
       follow: true,
       "max-video-preview": -1,
-      "max-image-preview": "large",
+      "max-image-preview": "large" as const,
       "max-snippet": -1,
     },
     // New robots fields
@@ -399,7 +399,6 @@ export const metadata = {
       priceRange: "$$",
     },
   },
-  // New performance and security headers
   headers: {
     "X-Frame-Options": "DENY",
     "X-Content-Type-Options": "nosniff",

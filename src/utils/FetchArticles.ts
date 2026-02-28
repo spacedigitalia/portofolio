@@ -11,7 +11,7 @@ export const fetchArticlesHome = async (): Promise<Article[]> => {
     const latestThree: Article[] = [...data]
       .sort(
         (a: Article, b: Article) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       )
       .slice(0, 3);
     return latestThree;
@@ -35,7 +35,7 @@ export const fetchArticlesContents = async (): Promise<Article[]> => {
 };
 
 export const fetchArticleBySlug = async (
-  slug: string
+  slug: string,
 ): Promise<ArticleDetails> => {
   try {
     const data = await apiFetch<ArticleDetails>(`${API_URL}/${slug}`, {

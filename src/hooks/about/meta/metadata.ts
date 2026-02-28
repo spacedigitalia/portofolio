@@ -43,5 +43,5 @@ export async function generateMetadata(): Promise<Metadata> {
         "en-US": `${BASE_URL}/en/about`,
       },
     },
-  };
+  } as Metadata;
 }

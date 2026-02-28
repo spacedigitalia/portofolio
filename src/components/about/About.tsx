@@ -49,10 +49,7 @@ export default function AboutContent({ aboutData, skillsData }: { aboutData: Abo
                         />
 
                         {/* Skills Section */}
-                        <TechSkill
-                            skillsData={skillsData}
-                            isInView={isInView}
-                        />
+                        <TechSkill skillsData={skillsData} />
                     </motion.div>
                 </motion.div>
             </div>

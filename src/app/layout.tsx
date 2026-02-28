@@ -8,21 +8,26 @@ metadata.manifest = "/manifest.json";
 
 import "@/base/styling/globals.css";
 
-import { ThemeProvider } from "@/context/ThemaContext"
+import { ThemeProvider } from "@/context/ThemaContext";
 
-import { LoadingProvider } from "@/context/LoadingContext"
+import { LoadingProvider } from "@/context/LoadingContext";
 
-import LoadingOverlayWrapper, { RouteChangeLoadingOverlay } from "@/base/Loading/LoadingOverlayWrapper"
+import LoadingOverlayWrapper, {
+  RouteChangeLoadingOverlay,
+} from "@/base/Loading/LoadingOverlayWrapper";
 
 import { geistSans, geistMono } from "@/base/fonts/Fonts";
 
 import Header from "@/components/layout/header/Header";
 
-import { GoogleTagManager, GoogleTagManagerNoScript } from '@/base/analytics/GoogleTagManager'
+import {
+  GoogleTagManager,
+  GoogleTagManagerNoScript,
+} from "@/base/analytics/GoogleTagManager";
 
-import LenisProvider from '@/base/smooth-scroll/LenisProvider'
+import LenisProvider from "@/base/smooth-scroll/LenisProvider";
 
-import Footer from "@/components/layout/footer/Footer"
+import Footer from "@/components/layout/footer/Footer";
 
 import Overlay from "@/base/helper/Overlay";
 
