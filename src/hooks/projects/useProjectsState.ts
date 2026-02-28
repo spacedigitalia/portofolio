@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useMemo, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useLayoutEffect } from "react";
+
 import { useRouter } from "next/navigation";
+
 import { useLoading } from "@/context/LoadingContext";
 
 import { useLenis } from "@/lib/useLenis";
@@ -10,36 +12,42 @@ type ProjectsStateMode = "home" | "list";
 
 export function useProjectsState(
   projectsData: ProjectsContentProps[] = [],
-  mode: ProjectsStateMode = "list"
+  mode: ProjectsStateMode = "list",
 ) {
   // Common: categories, filtering, displayed list
   const [selectedCategory, setSelectedCategory] = React.useState<string>("all");
   const categories = React.useMemo(() => {
     const unique = Array.from(
-      new Set((projectsData || []).map((p) => (p.category || "").toLowerCase()))
+      new Set(
+        (projectsData || []).map((p) => (p.category || "").toLowerCase()),
+      ),
     ).filter(Boolean);
     return ["all", ...unique];
   }, [projectsData]);
 
-  const [showMoreCategories, setShowMoreCategories] = React.useState<boolean>(false);
+  const [showMoreCategories, setShowMoreCategories] =
+    React.useState<boolean>(false);
 
   // ProjectsHeader computed values
   const MAX_VISIBLE_CATEGORIES = 5;
   const hasMoreCategories = React.useMemo(
     () => categories.length > MAX_VISIBLE_CATEGORIES,
-    [categories]
+    [categories],
   );
   const visibleCategories = React.useMemo(
-    () => (hasMoreCategories ? categories.slice(0, MAX_VISIBLE_CATEGORIES) : categories),
-    [categories, hasMoreCategories]
+    () =>
+      hasMoreCategories
+        ? categories.slice(0, MAX_VISIBLE_CATEGORIES)
+        : categories,
+    [categories, hasMoreCategories],
   );
   const hiddenCategories = React.useMemo(
     () => (hasMoreCategories ? categories.slice(MAX_VISIBLE_CATEGORIES) : []),
-    [categories, hasMoreCategories]
+    [categories, hasMoreCategories],
   );
   const isSelectedCategoryHidden = React.useMemo(
     () => hiddenCategories.includes(selectedCategory),
-    [hiddenCategories, selectedCategory]
+    [hiddenCategories, selectedCategory],
   );
 
   const handleCategorySelect = useCallback(
@@ -47,12 +55,37 @@ export function useProjectsState(
       setSelectedCategory(category);
       setShowMoreCategories(false);
     },
-    [setSelectedCategory]
+    [setSelectedCategory],
   );
 
   // ProjectsHeader refs
   const headerDropdownRef = React.useRef<HTMLDivElement | null>(null);
   const headerButtonRef = React.useRef<HTMLButtonElement | null>(null);
+
+  // Dropdown position for "more categories" portal (used by ProjectsLayout)
+  const [dropdownPosition, setDropdownPosition] = React.useState<{
+    top: number;
+    right: number;
+  } | null>(null);
+
+  useLayoutEffect(() => {
+    if (!showMoreCategories || !hasMoreCategories || !headerButtonRef.current) {
+      setDropdownPosition(null);
+      return;
+    }
+    const rect = headerButtonRef.current.getBoundingClientRect();
+    setDropdownPosition({
+      top: rect.bottom + 8,
+      right: typeof window !== "undefined" ? window.innerWidth - rect.right : 0,
+    });
+  }, [showMoreCategories, hasMoreCategories]);
+
+  useEffect(() => {
+    if (!showMoreCategories) return;
+    const handleScroll = () => setShowMoreCategories(false);
+    window.addEventListener("scroll", handleScroll, true);
+    return () => window.removeEventListener("scroll", handleScroll, true);
+  }, [showMoreCategories, setShowMoreCategories]);
 
   // ProjectsHeader useEffect for click outside
   useEffect(() => {
@@ -68,18 +101,18 @@ export function useProjectsState(
     };
 
     if (showMoreCategories) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showMoreCategories, setShowMoreCategories]);
 
   const filteredProjects = React.useMemo(() => {
     if (selectedCategory === "all") return projectsData;
     return (projectsData || []).filter(
-      (p) => (p.category || "").toLowerCase() === selectedCategory
+      (p) => (p.category || "").toLowerCase() === selectedCategory,
     );
   }, [projectsData, selectedCategory]);
 
@@ -125,7 +158,7 @@ export function useProjectsState(
           });
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "200px" },
     );
 
     observer.observe(node);
@@ -135,13 +168,13 @@ export function useProjectsState(
   const displayedProjects = React.useMemo(() => {
     return (filteredProjects || []).slice(
       0,
-      Math.min(visibleCount, (filteredProjects || []).length)
+      Math.min(visibleCount, (filteredProjects || []).length),
     );
   }, [filteredProjects, visibleCount]);
 
   const handleMouseMove = (
     e: React.MouseEvent<HTMLDivElement>,
-    idx: number
+    idx: number,
   ) => {
     if (layoutMode !== "grid") return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -176,7 +209,7 @@ export function useProjectsState(
 
   const homeDisplayed = React.useMemo(
     () => (filteredProjects || []).slice(0, 6),
-    [filteredProjects]
+    [filteredProjects],
   );
   const topProject = homeDisplayed[0];
   const middleProjects = homeDisplayed.slice(1, 4);
@@ -198,7 +231,7 @@ export function useProjectsState(
       showLoading(title || "Projects", "projects");
       setTimeout(() => router.push(`/projects/${slug}`), 0);
     },
-    [router, showLoading]
+    [router, showLoading],
   );
 
   // Return superset to satisfy both modes' consumers
@@ -220,6 +253,7 @@ export function useProjectsState(
     handleCategorySelect,
     headerDropdownRef,
     headerButtonRef,
+    dropdownPosition,
 
     // List mode specific
     layoutMode,
